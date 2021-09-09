@@ -168,33 +168,45 @@ namespace NinetiesTV
         //     show that ended on or after the year 2000.
         static Show EndedFirstAfterTheMillennium(List<Show> shows)
         {
-            throw new NotImplementedException();
+            return shows
+                .OrderBy(s => s.EndYear)
+                .FirstOrDefault(s => s.EndYear >= 2000);
         }
 
         // 17. Order the shows by rating (highest first) 
         //     and return the first show with genre of drama.
         static Show BestDrama(List<Show> shows)
         {
-            throw new NotImplementedException();
+            return shows
+                .OrderByDescending(s => s.ImdbRating)
+                .FirstOrDefault(s => s.Genres.Contains("Drama"));
         }
 
         // 18. Return all dramas except for the highest rated.
         static List<Show> AllButBestDrama(List<Show> shows)
         {
-            throw new NotImplementedException();
+            return shows
+                .Where(s => s.Genres.Contains("Drama"))
+                .OrderByDescending(s => s.ImdbRating)
+                .Skip(1)
+                .ToList();
         }
 
         // 19. Return the number of crime shows with an IMDB rating greater than 7.0.
         static int GoodCrimeShows(List<Show> shows)
         {
-            throw new NotImplementedException();
+            return shows
+                .Where(s => s.ImdbRating > 7.0 && s.Genres.Contains("Crime"))
+                .Count();
         }
 
         // 20. Return the first show that ran for more than 10 years 
         //     with an IMDB rating of less than 8.0 ordered alphabetically.
         static Show FirstLongRunningTopRated(List<Show> shows)
         {
-            throw new NotImplementedException();
+            return shows
+                .OrderBy(s => s.Name)
+                .FirstOrDefault(s => s.ImdbRating < 8.0 && s.EndYear - s.StartYear > 10);
         }
 
         // 21. Return the show with the most words in the name.
