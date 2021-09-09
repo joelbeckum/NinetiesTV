@@ -161,7 +161,7 @@ namespace NinetiesTV
         static Show MostEpisodes(List<Show> shows)
         {
             return shows
-                .FirstOrDefault(s => s.EpisodeCount == shows.Max(s => s.EpisodeCount));
+                .First(s => s.EpisodeCount == shows.Max(s => s.EpisodeCount));
         }
 
         // 16. Order the shows by their ending year then return the first 
@@ -170,7 +170,7 @@ namespace NinetiesTV
         {
             return shows
                 .OrderBy(s => s.EndYear)
-                .FirstOrDefault(s => s.EndYear >= 2000);
+                .First(s => s.EndYear >= 2000);
         }
 
         // 17. Order the shows by rating (highest first) 
@@ -179,7 +179,7 @@ namespace NinetiesTV
         {
             return shows
                 .OrderByDescending(s => s.ImdbRating)
-                .FirstOrDefault(s => s.Genres.Contains("Drama"));
+                .First(s => s.Genres.Contains("Drama"));
         }
 
         // 18. Return all dramas except for the highest rated.
@@ -212,19 +212,29 @@ namespace NinetiesTV
         // 21. Return the show with the most words in the name.
         static Show WordieastName(List<Show> shows)
         {
-            throw new NotImplementedException();
+            return shows
+                .OrderByDescending(s => s.Name.Split(' ').Count())
+                .First();
+
         }
 
         // 22. Return the names of all shows as a single string seperated by a comma and a space.
         static string AllNamesWithCommas(List<Show> shows)
         {
-            throw new NotImplementedException();
+            IEnumerable<string> showNames = shows.Select(s => s.Name);
+            return String.Join(", ", showNames);
         }
 
         // 23. Do the same as above, but put the word "and" between the second-to-last and last show name.
         static string AllNamesWithCommasPlsAnd(List<Show> shows)
         {
-            throw new NotImplementedException();
+            IEnumerable<string> allButLastTwoShows = shows.Take(shows.Count() - 2).Select(s => s.Name);
+            IEnumerable<string> lastTwoShows = shows.Skip(shows.Count() - 2).Select(s => s.Name);
+
+            string showNameString = String.Join(", ", allButLastTwoShows);
+            showNameString += $", {String.Join(" and ", lastTwoShows)}";
+
+            return showNameString;
         }
 
 
