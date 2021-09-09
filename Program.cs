@@ -34,6 +34,7 @@ namespace NinetiesTV
             Print("All Names", AllNamesWithCommas(shows));
             Print("All Names with And", AllNamesWithCommasPlsAnd(shows));
             Print("Eighties Show Genres", GenresOfEightiesShows(shows));
+            Print("All Available Genres", UniqueGenres(shows));
         }
 
         /**************************************************************************************************
@@ -265,6 +266,15 @@ namespace NinetiesTV
             return String.Join(", ", showGenres);
         }
         // 2. Print a unique list of geners.
+        static string UniqueGenres(List<Show> shows)
+        {
+            IEnumerable<string> showGenres = shows
+                                    .SelectMany(s => s.Genres)
+                                    .Distinct()
+                                    .OrderBy(g => g);
+            
+            return String.Join(", ", showGenres);
+        }
         // 3. Print the years 1987 - 2018 along with the number of shows that started in each year (note many years will have zero shows)
         // 4. Assume each episode of a comedy is 22 minutes long and each episode of a show that isn't a comedy is 42 minutes. How long would it take to watch every episode of each show?
         // 5. Assume each show ran each year between its start and end years (which isn't true), which year had the highest average IMDB rating.
